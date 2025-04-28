@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="Ucrop.CropTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- This tells the system not to render under the notch/status bar -->
+    <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+  </style>
+</resources>
