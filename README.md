@@ -1,4 +1,4 @@
-```markdown
+
 # Pixel Gallery App
 
 A Flutter app that lets users create an account, upload and crop images, and organize their personal gallery with a drag-and-drop interface.  
@@ -60,11 +60,8 @@ You can add screenshots later like this:
 |:-----------:|:------------:|:------------:|
 | ![Signup](screenshots/signup.png) | ![Gallery](screenshots/gallery.png) | ![Upload](screenshots/upload.png) |
 
-Or just write:
-
-**Screenshots coming soon!**
 
 ## 🎯 Notes
 - The app uses `flutter_animate` for extra UI polish but is fully usable without it too.
 - User credentials are stored locally (not a production-grade authentication system).
-```
+- All functionality has been implemented as per requirements but UI is still not upto the mark.
