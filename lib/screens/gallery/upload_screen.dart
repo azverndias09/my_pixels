@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:my_pixels/core/app_themes.dart';
-import 'package:my_pixels/data/models/gallery_image.dart';
+import 'package:my_pixels/models/gallery_image.dart';
 import 'package:my_pixels/providers/gallery_provider.dart';
-import 'package:my_pixels/providers/user_provider.dart';
+// import 'package:my_pixels/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class UploadScreen extends StatefulWidget {

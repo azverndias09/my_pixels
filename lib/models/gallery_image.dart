@@ -7,7 +7,6 @@ class GalleryImage {
 
   GalleryImage({required this.id, required this.file, required this.createdAt});
 
-  // Add serialization methods
   Map<String, dynamic> toJson() => {
     'id': id,
     'path': file.path,

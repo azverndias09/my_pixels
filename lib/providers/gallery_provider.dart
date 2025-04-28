@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:my_pixels/data/models/gallery_image.dart';
+import 'package:my_pixels/models/gallery_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GalleryProvider with ChangeNotifier {
@@ -32,7 +32,7 @@ class GalleryProvider with ChangeNotifier {
     await prefs.setString(_storageKey, jsonEncode(_images));
   }
 
-  // Call _persistImages() after every mutation
+  // Call _persistImages() after every mutation - helps with retaining images or else gets deleted
   void addImage(GalleryImage image) {
     _images.add(image);
     _persistImages();

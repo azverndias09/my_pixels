@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_pixels/data/models/gallery_image.dart';
-import 'package:my_pixels/widgets/gender_badge.dart';
+import 'package:my_pixels/models/gallery_image.dart';
+// import 'package:my_pixels/widgets/gender_badge.dart';
 
 class ImageTile extends StatelessWidget {
   final GalleryImage image;

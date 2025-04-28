@@ -6,7 +6,7 @@ class AppThemes {
     final seedColor =
         isFemale
             ? Colors.pinkAccent
-            : Colors.blueGrey; // BlueGrey for Male, PinkAccent for Female
+            : Colors.blueGrey; // Bluegrey for Male, pink accent for Female
 
     return ThemeData.light(useMaterial3: true).copyWith(
       colorScheme: _colorScheme(seedColor, isFemale),
@@ -39,9 +39,7 @@ class AppThemes {
               : Colors.blueGrey, // Correct color accents
       badgeColor: isFemale ? Colors.pink[400]! : Colors.blue[400]!,
       softBgColor:
-          isFemale
-              ? Colors.pink[50]!
-              : Colors.blueGrey[50]!, // Background changes
+          isFemale ? Colors.pink[50]! : Colors.blueGrey[50]!, // Background
     );
   }
 
@@ -72,9 +70,9 @@ class AppThemes {
       fillColor:
           isFemale
               ? Colors.pink[50]!
-              : Colors.blueGrey[50]!, // Consistency with background colors
+              : Colors.blueGrey[50]!, // local colors like background colors
       iconColor:
-          isFemale ? Colors.pink : Colors.blueGrey, // Gender-based icon color
+          isFemale ? Colors.pink : Colors.blueGrey, // Gender-based icon theme
     );
   }
 

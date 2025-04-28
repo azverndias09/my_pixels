@@ -56,7 +56,7 @@ class _SignupScreenState extends State<SignupScreen> {
     final genderTheme = localTheme.extension<GenderTheme>()!;
 
     return Theme(
-      data: localTheme, // Apply the gender-specific theme here
+      data: localTheme, //localTheme, since not saving global gender yet
       child: Scaffold(
         appBar: AppBar(title: const Text('Create Account'), centerTitle: true),
         body: SingleChildScrollView(
@@ -108,9 +108,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Text(
                       'Full Name',
                       style: localTheme.textTheme.bodyMedium?.copyWith(
-                        color:
-                            genderTheme
-                                .accentColor, // Label color based on gender
+                        color: genderTheme.accentColor, // Label based on gender
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -148,9 +146,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Text(
                       'Email Address',
                       style: localTheme.textTheme.bodyMedium?.copyWith(
-                        color:
-                            genderTheme
-                                .accentColor, // Label color based on gender
+                        color: genderTheme.accentColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -190,9 +186,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Text(
                       'Password',
                       style: localTheme.textTheme.bodyMedium?.copyWith(
-                        color:
-                            genderTheme
-                                .accentColor, // Label color based on gender
+                        color: genderTheme.accentColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -200,18 +194,16 @@ class _SignupScreenState extends State<SignupScreen> {
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
-                      style: TextStyle(
-                        color: genderTheme.accentColor,
-                      ), // Text color for input
+                      style: TextStyle(color: genderTheme.accentColor),
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.lock_outline,
                           color: genderTheme.accentColor,
-                        ), // Icon color
+                        ),
                         hintText: 'Enter your password',
                         hintStyle: TextStyle(
                           color: genderTheme.accentColor.withOpacity(0.3),
-                        ), // Placeholder color
+                        ), // manual for now
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: genderTheme.accentColor.withOpacity(0.3),
@@ -228,13 +220,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Gender Selector
                     Text(
                       'Gender',
                       style: localTheme.textTheme.bodyMedium?.copyWith(
-                        color:
-                            genderTheme
-                                .accentColor, // Label color based on gender
+                        color: genderTheme.accentColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -288,7 +277,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Already have account
+                    //loginprompt
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

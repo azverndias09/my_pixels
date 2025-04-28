@@ -18,14 +18,14 @@ class ImagePreviewScreen extends StatelessWidget {
     final galleryProvider = Provider.of<GalleryProvider>(context);
     final images = galleryProvider.images;
 
-    int safeIndex = imageIndex; // Create a local mutable copy
+    int safeIndex = imageIndex; // Create a local copy
 
     if (safeIndex >= images.length) {
       if (images.isEmpty) {
-        Navigator.of(context).pop(); // No images left, go back
+        Navigator.of(context).pop(); // No images left
         return const SizedBox(); // Empty widget after pop
       }
-      safeIndex = images.length - 1; // Fallback to last valid index
+      safeIndex = images.length - 1; // revert to last valid index
     }
 
     final image = images[safeIndex];

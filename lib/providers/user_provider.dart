@@ -9,7 +9,7 @@ class UserProvider with ChangeNotifier {
   AppUser? get user => _user;
 
   Future<void> initialize() async {
-    final prefs = await SharedPreferences.getInstance(); // ✅ fetch here
+    final prefs = await SharedPreferences.getInstance(); //  fetch here
     final name = prefs.getString('name');
     final email = prefs.getString('email');
     final gender = prefs.getString('gender');
@@ -27,7 +27,7 @@ class UserProvider with ChangeNotifier {
 
   Future<void> loginUser(AppUser user) async {
     _user = user;
-    final prefs = await SharedPreferences.getInstance(); // ✅ fetch here
+    final prefs = await SharedPreferences.getInstance(); // fetch here
     await prefs.setString('name', user.name);
     await prefs.setString('email', user.email);
     await prefs.setString('gender', user.gender);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_pixels/data/models/gallery_image.dart';
+import 'package:my_pixels/models/gallery_image.dart';
 import 'package:my_pixels/providers/auth_provider.dart';
 import 'package:my_pixels/providers/gallery_provider.dart';
 import 'package:my_pixels/providers/user_provider.dart';
@@ -166,7 +166,7 @@ class GalleryScreen extends StatelessWidget {
   }
 
   void _navigateToUpload(BuildContext context, {int? index}) {
-    // Directly open image picker without intermediate screen
+    // Directly open image picker need to replace this screen with upload screen
     Navigator.push(
       context,
       MaterialPageRoute(
