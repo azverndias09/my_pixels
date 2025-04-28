@@ -56,11 +56,10 @@ flutter run
 
 Here are some screenshots of the Pixel Gallery app:
 
-| Signup Page | Gallery Page | Image Upload | Additional Screens |
-|:-----------:|:------------:|:------------:|:------------------:|
-| ![Signup](screenshots/IMG-20250428-WA0001.jpg) | ![Gallery](screenshots/IMG-20250428-WA0002.jpg) | ![Upload](screenshots/IMG-20250428-WA0003.jpg) | ![Additional 1](screenshots/IMG-20250428-WA0004.jpg) |
-|  |  |  | ![Additional 2](screenshots/IMG-20250428-WA0005.jpg) |
-|  |  |  | ![Additional 3](screenshots/IMG-20250428-WA0006.jpg) |
+| Female Signup | Male Signup | Login Page | Image Edit & Crop | Drag & Drop | Edit & Delete |
+|:-------------:|:-----------:|:----------:|:-----------------:|:-----------:|:-------------:|
+| ![Female Signup](screenshots/femalesignup.jpg) | ![Male Signup](screenshots/malesignup.jpg) | ![Login](screenshots/login.jpg) | ![Edit & Crop](screenshots/cropimage.jpg) | ![Drag & Drop](screenshots/dragdrop.jpg) | ![Edit & Delete](screenshots/editdelete.jpg) |
+
 
 
 
