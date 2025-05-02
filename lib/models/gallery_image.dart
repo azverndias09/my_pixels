@@ -1,11 +1,12 @@
 import 'dart:io';
+import 'package:uuid/uuid.dart';
 
 class GalleryImage {
   final String id;
   final File file;
   final DateTime createdAt;
 
-  GalleryImage({required this.id, required this.file, required this.createdAt});
+  GalleryImage({required this.file, required this.createdAt, required this.id});
 
   Map<String, dynamic> toJson() => {
     'id': id,

@@ -2,8 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:my_pixels/data/models/gallery_image.dart';
+import 'package:my_pixels/models/gallery_image.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import '../../providers/gallery_provider.dart';
 import 'package:my_pixels/core/app_themes.dart';
 
@@ -78,7 +79,7 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
       galleryProvider.replaceImage(widget.editIndex!, updatedImage);
     } else {
       final newImage = GalleryImage(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        id: Uuid().v4(),
         file: _image!,
         createdAt: DateTime.now(),
       );

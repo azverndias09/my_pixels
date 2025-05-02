@@ -5,8 +5,8 @@ class AppThemes {
     final isFemale = gender == 'Female';
     final seedColor =
         isFemale
-            ? Colors.pinkAccent
-            : Colors.blueGrey; // Bluegrey for Male, pink accent for Female
+            ? const Color(0xFFE91E63) // More mature pink
+            : const Color(0xFF607D8B); // Softer blue-grey
 
     return ThemeData.light(useMaterial3: true).copyWith(
       colorScheme: _colorScheme(seedColor, isFemale),
@@ -14,9 +14,14 @@ class AppThemes {
       appBarTheme: _appBarTheme(isFemale),
       inputDecorationTheme: _inputDecorationTheme(isFemale),
       elevatedButtonTheme: _elevatedButtonTheme(seedColor),
+      outlinedButtonTheme: _outlinedButtonTheme(seedColor),
       cardTheme: _cardTheme(),
       textTheme: _textTheme(),
-      scaffoldBackgroundColor: isFemale ? Colors.pink[50] : Colors.blue[50],
+      scaffoldBackgroundColor:
+          isFemale
+              ? Colors.pink[50]?.withOpacity(0.95)
+              : Colors.blueGrey[50]?.withOpacity(0.95),
+      chipTheme: _chipTheme(seedColor),
     );
   }
 
@@ -25,35 +30,39 @@ class AppThemes {
       seedColor: seedColor,
       brightness: Brightness.light,
     ).copyWith(
-      surfaceVariant: isFemale ? Colors.pink[100]! : Colors.blue[100]!,
-      onSurfaceVariant: isFemale ? Colors.pink[900]! : Colors.blue[900]!,
+      surfaceVariant:
+          isFemale
+              ? Colors.pink[50]!.withOpacity(0.8)
+              : Colors.blueGrey[50]!.withOpacity(0.8),
+      onSurfaceVariant: isFemale ? Colors.pink[900]! : Colors.blueGrey[900]!,
+      secondary: isFemale ? Colors.pink[200]! : Colors.blueGrey[200]!,
     );
   }
 
   static GenderTheme _genderTheme(bool isFemale) {
     return GenderTheme(
       isFemale: isFemale,
-      accentColor:
-          isFemale
-              ? Colors.pinkAccent
-              : Colors.blueGrey, // Correct color accents
-      badgeColor: isFemale ? Colors.pink[400]! : Colors.blue[400]!,
-      softBgColor:
-          isFemale ? Colors.pink[50]! : Colors.blueGrey[50]!, // Background
+      accentColor: isFemale ? const Color(0xFFE91E63) : const Color(0xFF607D8B),
+      badgeColor: isFemale ? Colors.pink[400]! : Colors.blueGrey[400]!,
+      softBgColor: isFemale ? Colors.pink[50]! : Colors.blueGrey[50]!,
     );
   }
 
   static AppBarTheme _appBarTheme(bool isFemale) {
     return AppBarTheme(
-      backgroundColor: isFemale ? Colors.pink[50] : Colors.blue[50],
+      backgroundColor:
+          isFemale
+              ? Colors.pink[50]?.withOpacity(0.95)
+              : Colors.blueGrey[50]?.withOpacity(0.95),
       titleTextStyle: TextStyle(
-        color: isFemale ? Colors.pink[900] : Colors.blue[900],
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
-        letterSpacing: 0.5,
+        color: isFemale ? Colors.pink[900] : Colors.blueGrey[900],
+        fontSize: 22,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.8,
       ),
       iconTheme: IconThemeData(
-        color: isFemale ? Colors.pink[900] : Colors.blue[900],
+        color: isFemale ? Colors.pink[900] : Colors.blueGrey[900],
+        size: 28,
       ),
       elevation: 0,
       centerTitle: true,
@@ -62,17 +71,19 @@ class AppThemes {
 
   static InputDecorationTheme _inputDecorationTheme(bool isFemale) {
     return InputDecorationTheme(
-      border: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide.none,
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       filled: true,
       fillColor:
           isFemale
-              ? Colors.pink[50]!
-              : Colors.blueGrey[50]!, // local colors like background colors
-      iconColor:
-          isFemale ? Colors.pink : Colors.blueGrey, // Gender-based icon theme
+              ? Colors.pink[50]!.withOpacity(0.8)
+              : Colors.blueGrey[50]!.withOpacity(0.8),
+      hintStyle: TextStyle(
+        color: isFemale ? Colors.pink[400]! : Colors.blueGrey[400]!,
+      ),
     );
   }
 
@@ -81,17 +92,33 @@ class AppThemes {
       style: ElevatedButton.styleFrom(
         backgroundColor: seedColor,
         foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        elevation: 2,
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        textStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+        ),
+        elevation: 1,
+      ),
+    );
+  }
+
+  static OutlinedButtonThemeData _outlinedButtonTheme(Color seedColor) {
+    return OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        side: BorderSide(color: seedColor, width: 1.5),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        textStyle: TextStyle(color: seedColor, fontWeight: FontWeight.w600),
       ),
     );
   }
 
   static CardTheme _cardTheme() {
     return const CardTheme(
-      elevation: 2,
-      margin: EdgeInsets.all(8),
+      elevation: 1.5,
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
@@ -101,22 +128,45 @@ class AppThemes {
   static TextTheme _textTheme() {
     return const TextTheme(
       displayLarge: TextStyle(
-        fontSize: 28,
-        fontWeight: FontWeight.bold,
-        letterSpacing: 0.5,
+        fontSize: 26,
+        fontWeight: FontWeight.w800,
+        letterSpacing: 0.8,
+        height: 1.3,
       ),
       displayMedium: TextStyle(
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
+        fontSize: 22,
+        fontWeight: FontWeight.w700,
         letterSpacing: 0.5,
       ),
-      headlineSmall: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-        letterSpacing: 0.5,
+      titleLarge: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.3,
       ),
-      bodyLarge: TextStyle(fontSize: 16, letterSpacing: 0.25),
-      bodyMedium: TextStyle(fontSize: 14, letterSpacing: 0.25),
+      bodyLarge: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        height: 1.5,
+      ),
+      bodyMedium: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: Colors.black87,
+      ),
+      labelSmall: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.4,
+      ),
+    );
+  }
+
+  static ChipThemeData _chipTheme(Color seedColor) {
+    return ChipThemeData(
+      backgroundColor: seedColor.withOpacity(0.1),
+      labelStyle: TextStyle(color: seedColor, fontWeight: FontWeight.w500),
+      side: BorderSide.none,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
     );
   }
 }

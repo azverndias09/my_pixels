@@ -107,7 +107,7 @@ class GalleryScreen extends StatelessWidget {
       child: Stack(
         children: [
           Hero(
-            tag: image.id,
+            tag: '${image.id}-${index == 0 ? 'editing' : 'original'}',
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.file(image.file, fit: BoxFit.cover),

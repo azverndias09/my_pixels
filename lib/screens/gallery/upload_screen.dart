@@ -1,15 +1,17 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:my_pixels/core/app_themes.dart';
 import 'package:my_pixels/models/gallery_image.dart';
 import 'package:my_pixels/providers/gallery_provider.dart';
-// import 'package:my_pixels/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class UploadScreen extends StatefulWidget {
   final int? editIndex;
+
   const UploadScreen({super.key, this.editIndex});
 
   @override
@@ -17,22 +19,20 @@ class UploadScreen extends StatefulWidget {
 }
 
 class _UploadScreenState extends State<UploadScreen> {
-  File? _image;
+  List<File> _images = [];
   bool _isLoading = false;
-  bool _initialPickAttempted = false;
 
   @override
   void initState() {
     super.initState();
-    // Auto-trigger image selection when screen loads
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.editIndex == null) _pickAndCropImage();
+      if (widget.editIndex == null) _pickAndCropImages();
     });
   }
 
-  Future<void> _pickAndCropImage() async {
-    final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (picked == null) {
+  Future<void> _pickAndCropImages() async {
+    final picked = await ImagePicker().pickMultiImage();
+    if (picked == null || picked.isEmpty) {
       Navigator.pop(context);
       return;
     }
@@ -40,64 +40,74 @@ class _UploadScreenState extends State<UploadScreen> {
     final genderTheme = Theme.of(context).extension<GenderTheme>();
     final theme = Theme.of(context);
 
-    final croppedFile = await ImageCropper().cropImage(
-      sourcePath: picked.path,
-      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-      uiSettings: [
-        AndroidUiSettings(
-          toolbarTitle: 'Crop Your Image',
-          toolbarColor: genderTheme?.accentColor ?? theme.primaryColor,
-          toolbarWidgetColor: theme.colorScheme.onPrimary,
-          activeControlsWidgetColor: genderTheme?.badgeColor,
-          backgroundColor: genderTheme?.softBgColor,
-          statusBarColor: genderTheme?.accentColor,
-          dimmedLayerColor: Colors.black54,
-          initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: true,
-          showCropGrid: false,
-          cropFrameColor: genderTheme?.accentColor ?? Colors.white,
-          cropGridColor:
-              genderTheme?.badgeColor?.withOpacity(0.4) ?? Colors.white60,
-          hideBottomControls: false,
-          cropFrameStrokeWidth: 2,
-        ),
-        IOSUiSettings(
-          title: 'Crop Image',
-          aspectRatioLockEnabled: true,
-          aspectRatioPickerButtonHidden: true,
-          resetButtonHidden: true,
-          rotateButtonsHidden: false,
-          rotateClockwiseButtonHidden: true,
-          doneButtonTitle: 'Done',
-          cancelButtonTitle: 'Cancel',
-          // NO titleFontColor, toolbarHeight, tooltipColor
-        ),
-      ],
-    );
+    List<File> croppedImages = [];
 
-    if (croppedFile == null) {
-      Navigator.pop(context);
-      return;
+    for (var image in picked) {
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: image.path,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Your Image',
+            toolbarColor: genderTheme?.accentColor ?? theme.primaryColor,
+            toolbarWidgetColor: theme.colorScheme.onPrimary,
+            activeControlsWidgetColor: genderTheme?.badgeColor,
+            backgroundColor: genderTheme?.softBgColor,
+            statusBarColor: genderTheme?.accentColor,
+            dimmedLayerColor: Colors.black54,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: true,
+            showCropGrid: false,
+            cropFrameColor: genderTheme?.accentColor ?? Colors.white,
+            cropGridColor:
+                genderTheme?.badgeColor?.withOpacity(0.4) ?? Colors.white60,
+            hideBottomControls: false,
+            cropFrameStrokeWidth: 2,
+          ),
+          IOSUiSettings(
+            title: 'Crop Image',
+            aspectRatioLockEnabled: true,
+            aspectRatioPickerButtonHidden: true,
+            resetButtonHidden: true,
+            rotateButtonsHidden: false,
+            rotateClockwiseButtonHidden: true,
+            doneButtonTitle: 'Done',
+            cancelButtonTitle: 'Cancel',
+          ),
+        ],
+      );
+
+      if (croppedFile != null) {
+        croppedImages.add(File(croppedFile.path));
+      }
     }
 
-    setState(() => _image = File(croppedFile.path));
+    if (croppedImages.isNotEmpty) {
+      setState(() {
+        _images = croppedImages;
+      });
+    } else {
+      Navigator.pop(context);
+    }
   }
 
-  void _saveImage() {
-    if (_image == null) return;
-    setState(() => _isLoading = true);
+  void _saveImages() {
+    if (_images.isEmpty) return;
 
     final gallery = context.read<GalleryProvider>();
-    final galleryImage = GalleryImage(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      file: _image!,
-      createdAt: DateTime.now(),
-    );
 
-    if (widget.editIndex != null) {
-      gallery.replaceImage(widget.editIndex!, galleryImage);
-    } else {
-      gallery.addImage(galleryImage);
+    for (var image in _images) {
+      final galleryImage = GalleryImage(
+        id: Uuid().v4(),
+        file: image,
+        createdAt: DateTime.now(),
+      );
+
+      if (widget.editIndex != null) {
+        gallery.replaceImage(widget.editIndex!, galleryImage);
+      } else {
+        gallery.addImage(galleryImage);
+      }
     }
 
     Navigator.pop(context);
@@ -117,54 +127,39 @@ class _UploadScreenState extends State<UploadScreen> {
       ),
       body: SafeArea(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (_image != null) ...[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Image.file(_image!),
+          child:
+              _images.isEmpty
+                  ? const CircularProgressIndicator()
+                  : Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: _images.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: Image.file(_images[index]),
+                            );
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ElevatedButton.icon(
+                          onPressed: _isLoading ? null : _saveImages,
+                          icon: const Icon(Icons.check),
+                          label: Text(_isLoading ? 'Saving...' : 'Save'),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(50),
+                            backgroundColor: theme.primaryColor,
+                            foregroundColor: theme.colorScheme.onPrimary,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                _buildActionBar(),
-              ] else ...[
-                if (!_isLoading) ...[
-                  const CircularProgressIndicator(),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Loading image...',
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: genderTheme?.accentColor,
-                    ),
-                  ),
-                ],
-              ],
-              if (_isLoading) const LinearProgressIndicator(),
-            ],
-          ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildActionBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          IconButton(
-            icon: const Icon(Icons.cancel),
-            color: Colors.red,
-            onPressed: () => Navigator.pop(context),
-          ),
-          IconButton(
-            icon: const Icon(Icons.check),
-            color: Colors.green,
-            onPressed: _isLoading ? null : _saveImage,
-          ),
-        ],
       ),
     );
   }
