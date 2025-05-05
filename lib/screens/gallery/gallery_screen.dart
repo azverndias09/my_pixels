@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_pixels/models/gallery_image.dart';
@@ -53,8 +54,8 @@ class GalleryScreen extends StatelessWidget {
               title: const Text('Log out'),
               onTap: () {
                 context.read<AuthProvider>().logout();
-                Navigator.pop(context); // Close the drawer
-                // Use GoRouter for navigation
+                Navigator.pop(context);
+                // should use go_router to navigate (fix later)
                 context.go('/login');
               },
             ),
@@ -70,17 +71,16 @@ class GalleryScreen extends StatelessWidget {
               spacing: 8,
               runSpacing: 8,
               alignment: WrapAlignment.center,
-              onReorder: gallery.reorderImages,
+              onReorder: (oldIndex, newIndex) {
+                HapticFeedback.vibrate();
+                gallery.reorderImages(oldIndex, newIndex);
+              },
               children: [
                 for (int i = 0; i < gallery.images.length; i++)
                   SizedBox(
                     key: ValueKey(gallery.images[i].id),
-                    width:
-                        (MediaQuery.of(context).size.width - 24) /
-                        2, // 2 columns
-                    height:
-                        (MediaQuery.of(context).size.height - 200) /
-                        3, // 3 rows
+                    width: (MediaQuery.of(context).size.width - 24) / 2,
+                    height: (MediaQuery.of(context).size.height - 200) / 3,
                     child: _buildImageTile(
                       context,
                       gallery.images[i],
@@ -103,7 +103,10 @@ class GalleryScreen extends StatelessWidget {
     String? gender,
   ) {
     return GestureDetector(
-      onTap: () => _showFullScreenPreview(context, index),
+      onTap: () {
+        HapticFeedback.heavyImpact();
+        _showFullScreenPreview(context, index);
+      },
       child: Stack(
         children: [
           Hero(

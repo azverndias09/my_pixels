@@ -10,10 +10,7 @@ The app offers a gender-personalized UI theme and smooth animations to enhance t
 Follow the official Flutter installation guide:  
 [Flutter Installation Guide](https://flutter.dev/docs/get-started/install)
 
-### 2. Clone or Download the Project
-
-- If you have a `.zip` file, unzip it.
-- Or clone the GitHub repository:
+### 2. Clone the Project
 
 ```bash
 git clone https://github.com/your-username/your-repo.git
@@ -51,19 +48,19 @@ flutter run
 | `reorderables`           | Drag-and-drop reordering of images inside the gallery.    |
 | `path_provider`          | Finding app-specific storage directories.                |
 | `path`                   | Manipulating file paths easily when saving images.        |
+| `services`               | Haptic feedback on drag and drop of images.                |
 
 ## 🖼️ Screenshots
 
-Here are some screenshots of the Pixel Gallery app:
-
-| Female Signup | Male Signup | Login Page | Image Edit & Crop | Drag & Drop | Edit & Delete |
-|:-------------:|:-----------:|:----------:|:-----------------:|:-----------:|:-------------:|
-| ![Female Signup](screenshots/femalesignup.jpg) | ![Male Signup](screenshots/malesignup.jpg) | ![Login](screenshots/login.jpg) | ![Edit & Crop](screenshots/cropimage.jpg) | ![Drag & Drop](screenshots/dragdrop.jpg) | ![Edit & Delete](screenshots/editdelete.jpg) |
+| Female Signup | Male Signup | Login Page | Image Edit & Crop | Drag & Drop | Edit & Delete | Edit Profile |
+|:-------------:|:-----------:|:----------:|:-----------------:|:-----------:|:-------------:|:------------:|
+| ![Female Signup](screenshots/femalesignup.jpg) | ![Male Signup](screenshots/malesignup.jpg) | ![Login](screenshots/login.jpg) | ![Edit & Crop](screenshots/cropimage.jpg) | ![Drag & Drop](screenshots/dragdrop.jpg) | ![Edit & Delete](screenshots/editdelete.jpg) | ![Edit Profile](screenshots/edit_profile.jpg) |
 
 
 
 
 ## 🎯 Notes
-- The app uses `flutter_animate` for extra UI polish but is fully usable without it too.
-- User credentials are stored locally (not a production-grade authentication system).
+- The app uses `flutter_animate` for extra UI polish but is fully usable without it too[functionality removed due to app breaking bugs for now]
+- User credentials are stored locally and password is secured using secure_storage().
 - All functionality has been implemented as per requirements but UI is still not upto the mark.
+- Added user profile edit screen
