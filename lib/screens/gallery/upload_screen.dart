@@ -23,10 +23,27 @@ class _UploadScreenState extends State<UploadScreen> {
   bool _isLoading = false;
 
   @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     if (widget.editIndex == null) _pickAndCropImages();
+  //   });
+  // }
   void initState() {
     super.initState();
+    if (widget.editIndex != null) {
+      final existingImage =
+          context.read<GalleryProvider>().images[widget.editIndex!];
+      setState(() {
+        _images = [existingImage.file];
+      });
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (widget.editIndex == null) _pickAndCropImages();
+      });
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.editIndex == null) _pickAndCropImages();
+      if (widget.editIndex != null) _pickAndCropImages();
     });
   }
 
@@ -121,7 +138,7 @@ class _UploadScreenState extends State<UploadScreen> {
     return Scaffold(
       backgroundColor: genderTheme?.softBgColor,
       appBar: AppBar(
-        title: Text(widget.editIndex != null ? 'Edit Image' : 'Add Image'),
+        title: Text(widget.editIndex != null ? 'Editor Image' : 'Add Image'),
         backgroundColor: theme.colorScheme.primary,
         foregroundColor: theme.colorScheme.onPrimary,
       ),

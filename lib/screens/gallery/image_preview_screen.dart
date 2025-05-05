@@ -42,7 +42,7 @@ class ImagePreviewScreen extends StatelessWidget {
       ),
       body: Center(
         child: Hero(
-          tag: image.id,
+          tag: '${image.id}-${safeIndex == 0 ? 'editing' : 'original'}',
           child: Image.file(image.file, fit: BoxFit.contain),
         ),
       ),

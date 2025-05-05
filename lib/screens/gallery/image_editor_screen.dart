@@ -29,7 +29,9 @@ class _ImageEditorScreenState extends State<ImageEditorScreen> {
     if (widget.editIndex != null) {
       final existingImage =
           context.read<GalleryProvider>().images[widget.editIndex!];
+      print('Existing image: $existingImage');
       _image = existingImage.file;
+      print('_image: $_image');
     }
   }
 

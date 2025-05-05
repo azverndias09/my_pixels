@@ -124,14 +124,19 @@ class GalleryScreen extends StatelessWidget {
   }
 
   void _showFullScreenPreview(BuildContext context, int index) {
+    final gallery = Provider.of<GalleryProvider>(context, listen: false);
+    final image = gallery.images[index];
+
     Navigator.push(
       context,
       MaterialPageRoute(
         builder:
-            (_) => ImagePreviewScreen(
-              imageIndex: index,
-              onDelete: () => _confirmDelete(context, index),
-              onEdit: () => _navigateToUpload(context, index: index),
+            (_) => Scaffold(
+              body: ImagePreviewScreen(
+                imageIndex: index,
+                onDelete: () => _confirmDelete(context, index),
+                onEdit: () => _navigateToUpload(context, index: index),
+              ),
             ),
       ),
     );
